@@ -59,7 +59,7 @@ class Solution {
                 s2 += 3;
             }
 
-            set.clear();
+           // set.clear();
             i1 += 3;
             s1 += 3;
             j1 = 0;
