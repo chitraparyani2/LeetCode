@@ -14,8 +14,8 @@ class Solution {
             int p = prereq[0];
             int q = prereq[1];
 
-            map.get(q).add(p);
-            indegree[p]++;
+            map.get(p).add(q);
+            indegree[q]++;
         }
 
         Queue<Integer> queue = new LinkedList<>();
