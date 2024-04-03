@@ -2,49 +2,52 @@ class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
         Map<Integer, List<Integer>> map = new HashMap<>();
-
-        int[] indegree = new int[numCourses];
+        boolean[] visited = new boolean[numCourses];
+        boolean[] inStack = new boolean[numCourses];
 
         for(int i=0; i<numCourses; i++) {
             map.put(i, new ArrayList<>());
         }
 
-        for(int[] prereq : prerequisites) {
+        for(int[] pre : prerequisites) {
 
-            int p = prereq[0];
-            int q = prereq[1];
+            int p = pre[0];
+            int q = pre[1];
 
-            map.get(p).add(q);
-            indegree[q]++;
+            map.get(q).add(p);
         }
 
-        Queue<Integer> queue = new LinkedList<>();
-
-        for(int i=0; i<indegree.length; i++) {
-            if(indegree[i] == 0) {
-                queue.add(i);
-            }
-        }
-
-        while(!queue.isEmpty()) {
-
-            int course = queue.poll();
-
-            for(int c : map.get(course)) {
-                indegree[c]--;
-
-                if(indegree[c] == 0) {
-                    queue.add(c);
+        for(int i=0; i<numCourses; i++) {
+            boolean res = helper(i, map, visited, inStack);
+                if(!res) {
+                return false;
                 }
             }
-        }
+      return true;  
+    }
 
-        for(int i=0; i<indegree.length; i++) {
-            if(indegree[i] != 0) {
-                return false;
-            }
-        }
+    public boolean helper(int course, Map<Integer, List<Integer>> map,
+            boolean[] visited, boolean[] inStack) {
 
-        return true;
+                if(inStack[course]) {
+                    return false;
+                }
+
+                if(visited[course]) {
+                    return true;
+                }
+
+                visited[course] = true;
+                inStack[course] = true;
+
+                for(int c : map.get(course)) {
+                    if(!helper(c, map, visited, inStack)) {
+                        return false;
+                    }
+                }
+
+                inStack[course] = false;
+
+       return true;
     }
 }
