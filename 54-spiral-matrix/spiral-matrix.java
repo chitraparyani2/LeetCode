@@ -1,39 +1,47 @@
 class Solution {
+    /**
+        00 -> 01 -> 02
+        10 -> 11 -> 12
+        20 -> 21 -> 22
+     */
+
     public List<Integer> spiralOrder(int[][] matrix) {
-        
-        int rs=0, re=matrix.length, cs=0, ce=matrix[0].length;
-        int count = re * ce;
-        int total = 0;
-        List<Integer> result = new ArrayList<>();
+     
+     List<Integer> result = new ArrayList<>();
 
-        while(rs < re && cs < ce) {
+     int m = matrix.length;
+     int n = matrix[0].length;
+     int count = m*n;
+     int val = 0;
 
-        for(int i=cs; i<ce && total < count; i++) {
-            result.add(matrix[rs][i]);
-            total++;
-        }
+     int rs=0, cs=0, re=m, ce=n;
 
-        for(int j=rs+1; j<re && total < count; j++) {
-            result.add(matrix[j][ce-1]);
-            total++;
-        }
+    while(rs < re && cs < ce) {
 
-        for(int k=ce-2; k >=cs && total < count; k--) {
-            result.add(matrix[re-1][k]);
-            total++;
-            }
-        
-        for(int l=re-2; l>rs && total < count; l--) {
-            result.add(matrix[l][rs]);
-            total++;
-            }
-        
-            rs++;
-            re--;
-            cs++;
-            ce--;
-        }
+     for(int i=cs; i<ce && val < count; i++) {
+        result.add(matrix[rs][i]);
+        val++;
+     }
 
-        return result;
+     for(int j=rs+1; j<re && val < count; j++) {
+        result.add(matrix[j][ce-1]);
+        val++;
+     }
+     
+     for(int k=ce-2; k>=cs && val < count; k--) {
+        result.add(matrix[re-1][k]);
+        val++;
+     }
+
+     for(int l=re-2; l>rs && val < count; l--) {
+        result.add(matrix[l][rs]);
+        val++;
+     }
+
+        rs++; re--; cs++; ce--;
     }
+        
+        return result;  
+    }
+  
 }
