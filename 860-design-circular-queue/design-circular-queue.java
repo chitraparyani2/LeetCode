@@ -1,97 +1,57 @@
 class MyCircularQueue {
 
-    int[] arr;
-    int rear, front, size, k;
+    List<Integer> list;
+    int k;
 
     public MyCircularQueue(int k) {
         
-        this.k = k;
-        arr = new int[k];
-        this.rear=-1;
-        this.front=-1;
-        this.size=0;
+        this.k=k;
+        list = new ArrayList<>(k);
     }
     
     public boolean enQueue(int value) {
         
-        if(isFull()) {
-            return false;
+        if(list.size() < k) {
+            list.add(value);
+            return true;
         }
-
-        if(rear == k) {
-            rear = 0;
-        }
-
-        if(rear == k && front == k) {
-            rear = -1;
-            front = -1;
-        }
-
-        if(front == -1 && rear == -1) {
-            front = 0;
-            rear = 0;
-        }
-
-        arr[rear] = value;
-        rear +=1;
-        size +=1;
-
-      return true;  
+      return false;  
     }
     
     public boolean deQueue() {
         
-        if(isEmpty()) {
+        if(list.size() == 0) {
             return false;
         }
-        
-        if(front == k) {
-            front = 0;
-        }
 
-        int value = arr[front];
-        front += 1;
-        size -= 1;
-
-        return true;
+        list.remove(0);
+      return true;  
     }
     
     public int Front() {
-        
-        if(isEmpty()) {
+        if(list.size() == 0) {
             return -1;
         }
-
-        if(front == k) {
-            front = 0;
-        }
-
-        return arr[front];
+        return list.get(0);
     }
     
     public int Rear() {
         
-        if(isEmpty()) {
+        if(list.size() == 0) {
             return -1;
         }
 
-        return arr[rear-1];
+        return list.get(list.size()-1);
     }
     
     public boolean isEmpty() {
         
-        if(size == 0) {
-            return true;
-        }
-      return false;  
+        return list.size() == 0;
     }
     
     public boolean isFull() {
         
-        if(size == k) {
-            return true;
-        }
-      return false;  
+        return list.size() == k;
     }
 }
 
