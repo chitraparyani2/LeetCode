@@ -55,18 +55,6 @@ class Solution {
             }
         }
 
-        if(list1 == null && list2 == null) {
-            return true;
-        }
-
-        if(list1 == null && list2.next == null) {
-            return true;
-        }
-
-        if(list2 == null && list1.next == null) {
-            return true;
-        }
-
-      return false;  
+      return true;  
     }
 }
