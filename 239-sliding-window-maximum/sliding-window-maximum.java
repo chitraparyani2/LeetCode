@@ -5,6 +5,11 @@ class Solution {
  5, 3, 6 -> decreasing montonic queue
 
 
+        85
+
+ 97,85
+
+
 [1,3,1,2,0,5]
 
 1, 2, 3
