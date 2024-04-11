@@ -10,6 +10,11 @@ class Solution {
 
         Everything becomes 0 -> 
         counter -> once value becomes 0
+
+        AABC
+
+        A ,2
+
     */
     public String minWindow(String s, String t) {
         
@@ -25,7 +30,15 @@ class Solution {
         int counter = 0;
 
         int len = Integer.MAX_VALUE, si = -1, ei = -1;
-
+        // left, right
+        // 1. while -> (right < length of String)
+        // 2. take character from right pointer
+        // 3. Do app operation on it
+        // 4. Check the condtion where you need to move left pointer
+        // 5. while -> (left <= right)
+        // 6. now take the left char and reset/reduce the appropriate operation
+        // 7. when to break and start pointer ++
+        // 8. Outside second while -> increment right pointer
         while(e < s.length()){
 
             char ch = s.charAt(e);
