@@ -1,48 +1,48 @@
 class Solution {
+
     public int orderOfLargestPlusSign(int n, int[][] mines) {
         
-        int[][] dp = new int[n][n];
-        int res=0;
+        //create binary
+        int[][] grid = new int[n][n];
 
-        for(int[] d : dp) {
-            Arrays.fill(d, 1);
+        for(int[] b : grid) {
+            Arrays.fill(b, 1);
         }
 
-        for(int[] m : mines) {
-            int x = m[0];
-            int y = m[1];
-            dp[x][y] = 0;
+        for(int[] mine : mines) {
+            int x = mine[0];
+            int y = mine[1];
+            grid[x][y]=0;
         }
 
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<n; j++) {
+        int m1 = grid.length;
+        int n1 = grid[0].length;
+        int max=0;
 
-               if(dp[i][j] == 1) {
+        for(int i=0; i<m1; i++) {
+            for(int j=0; j<n1; j++) {
 
-                int order = 1;
+                if(grid[i][j] == 1) {
+                    int res = 1;
+                    max = Math.max(max, res);
+                    int x=1;
 
-                while(true) {
+                    while(i-x >= 0 && i+x < m1 && j-x >=0 && j+x < n1 && grid[i][j] != 0) {
 
-                    int left = j-order;
-                    int right = j+order;
-                    int up = i-order;
-                    int down = i+order;
+                        if(grid[i][j] == grid[i-x][j] && grid[i][j] == grid[i+x][j] &&
+                        grid[i][j] == grid[i][j-x] && grid[i][j] == grid[i][j+x]) {
 
-                    if(left < 0 || right >= n || up < 0 || down >= n
-                    || dp[i][left] == 0 || dp[i][right] == 0 ||
-                    dp[up][j] == 0 || dp[down][j] == 0) {
-                        break;
+                            res++;
+                            max = Math.max(max, res);
+
+                            x++;
+                        } else {
+                            break;
+                        }
                     }
-
-                    order++;
-
-                    
                 }
-                    res = Math.max(res, order);
-
-               }
             }
         }
-      return res;  
+      return max;
     }
 }
