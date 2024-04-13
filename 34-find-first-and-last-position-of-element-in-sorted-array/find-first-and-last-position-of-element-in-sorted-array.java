@@ -2,8 +2,9 @@ class Solution {
     public int[] searchRange(int[] nums, int target) {
         
         int s=0, e=nums.length-1;
+        int n = nums.length-1;
 
-        int se=-1, ee=-1;
+        int l=-1, r=-1;
 
         while(s <= e) {
 
@@ -11,25 +12,24 @@ class Solution {
 
             if(nums[mid] == target) {
 
-                se=mid; ee=mid;
-
-                while(se > 0 && nums[se-1] == target) {
-                    se--;
-                } 
-
-                while(ee < nums.length-1 && nums[ee+1] == target) {
-                    ee++;
+                l=mid;
+                r=mid;
+                while(l >0 && nums[mid] == nums[l-1]) {
+                    l--;
                 }
 
-                return new int[] {se, ee};
-
+                while(r < n && nums[mid] == nums[r+1]) {
+                    r++;
+                }
+                return new int[]{l,r};
             } else if(nums[mid] > target) {
-                e = mid-1;
+                e=mid-1;
             } else {
-                s = mid+1;
+                s=mid+1;
             }
+
         }
 
-        return new int[]{se, ee};
+       return new int[]{-1,-1}; 
     }
 }
