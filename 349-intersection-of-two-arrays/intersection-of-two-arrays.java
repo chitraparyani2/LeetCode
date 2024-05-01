@@ -8,7 +8,7 @@ class Solution {
         int n1 = nums1.length;
         int n2 = nums2.length;
 
-        List<Integer> res = new ArrayList<>();
+        Set<Integer> res = new HashSet<>();
 
         while(i < n1 && j < n2) {
 
@@ -17,18 +17,18 @@ class Solution {
             } else if(nums1[i] > nums2[j]) {
                 j++;
             } else {
-                if(!res.contains(nums1[i])) {
-                    res.add(nums1[i]);
-                }
-
+               
+                res.add(nums1[i]);
                 i++;j++;
             }
         }
 
         int[] result = new int[res.size()];
 
-        for(int k=0; k<result.length; k++) {
-            result[k] = res.get(k);
+        int ind=0;
+
+        for(int val : res) {
+            result[ind++] = val;
         }
 
       return result;  
