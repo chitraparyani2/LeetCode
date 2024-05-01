@@ -3,20 +3,22 @@ class Solution {
         
         List<Integer> res = new ArrayList<>();
 
-        Set<Integer> set = new HashSet<>();
+        for(int i=0; i<nums.length; i++) {
 
-        for(int num : nums) {
-            set.add(num);
+            int ele = nums[i];
+
+            while(ele <= nums.length && nums[ele-1] != ele) {
+                int temp = nums[ele-1];
+                nums[ele-1] = ele;
+                ele = temp;
+            }
         }
 
-        int ind=0;
+        for(int i=0; i<nums.length; i++) {
 
-        while(ind < nums.length) {
-
-            if(!set.contains(ind+1)) {
-                res.add(ind+1);   
+            if(nums[i] != i+1) {
+                res.add(i+1);
             }
-             ind++;
         }
 
       return res;  
