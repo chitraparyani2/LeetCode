@@ -13,26 +13,26 @@ class Solution {
         
         ListNode slow = head;
         ListNode fast = head;
-        ListNode prev = slow;
 
         while(fast != null && fast.next != null) {
-            prev=slow;
             slow = slow.next;
             fast = fast.next.next;
         }
-        prev.next = null;
-        ListNode res = reverseList(slow);
 
-        return compare(head, res);
+        ListNode secondList = reverse(slow);
 
+        slow=null;
+
+        return compare(head, secondList);
     }
 
-    public ListNode reverseList(ListNode node) {
+    public ListNode reverse(ListNode head) {
 
+        ListNode curr = head;
         ListNode prev = null;
-        ListNode curr = node;
 
         while(curr != null) {
+
             ListNode next = curr.next;
             curr.next = prev;
             prev = curr;
@@ -41,20 +41,16 @@ class Solution {
       return prev;  
     }
 
-    public boolean compare(ListNode list1, ListNode list2) {
+    public boolean compare(ListNode first, ListNode second) {
 
-        
-        while(list1 != null && list2 != null) {
+        while(first != null && second != null) {
 
-
-            if(list1.val == list2.val) {
-                list1 = list1.next;
-                list2 = list2.next;
-            } else {
+            if(first.val != second.val) {
                 return false;
             }
+                first = first.next;
+                second = second.next;
         }
-
-      return true;  
+      return first == null || first.next == null;  
     }
 }
