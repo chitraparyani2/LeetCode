@@ -2,23 +2,23 @@ class Solution {
     public int jump(int[] nums) {
         
         int n = nums.length;
-        int[] maxJumps = new int[n];
 
-        Arrays.fill(maxJumps, Integer.MAX_VALUE);
+        int[] dp = new int[n];
 
-        maxJumps[0] = 0;
-        int good = 0;
+        Arrays.fill(dp, Integer.MAX_VALUE);
+
+        dp[0] = 0;
 
         for(int i=0; i<n; i++) {
 
-             good = Math.max(good, i+nums[i]);
+            int jump = i+nums[i];
 
-             for(int j=i+1; j<Math.min(good+1, n); j++) {
+            for(int j=i+1; j <Math.min(jump+1, n); j++) {
 
-                maxJumps[j] = Math.min(maxJumps[j], maxJumps[i]+1);
-             }
+                dp[j] = Math.min(dp[j], 1+dp[i]);
+            }
         }
 
-      return maxJumps[n-1];  
+       return dp[n-1]; 
     }
 }
