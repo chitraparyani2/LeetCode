@@ -1,53 +1,49 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
-        Map<Integer, List<Integer>> adjList = new HashMap<>();
+         Map<Integer, List<Integer>> adjList = new HashMap<>();
+         int[] indegree = new int[numCourses];
+         Queue<Integer> queue = new LinkedList<>();
 
-        boolean[] visited = new boolean[numCourses];
-        boolean[] inStack = new boolean[numCourses];
+         for(int i=0; i<numCourses; i++) {
+            adjList.put(i, new ArrayList<>());
+         }
 
-        for(int i=0; i<numCourses; i++) {
-            adjList.put(i, new ArrayList());
-        }
-
-        for(int[] prereq : prerequisites) {
+         for(int[] prereq : prerequisites) {
 
             int p0 = prereq[0];
             int p1 = prereq[1];
 
-            adjList.get(p1).add(p0);
-        }
+            adjList.get(p0).add(p1);
 
-        for(int i=0; i<numCourses; i++) {
-            if(!helper(i, adjList, visited, inStack)) {
-                return false;
+            indegree[p1]++;
+         }
+
+         for(int i=0; i<numCourses; i++) {
+            if(indegree[i] == 0) {
+                queue.add(i);
             }
-        }
-      return true;  
-    }
+         }
 
-    public boolean helper(int s, Map<Integer, List<Integer>> adjList,
-        boolean[] visited, boolean[] inStack) {
+         while(!queue.isEmpty()) {
 
-            if(inStack[s]) {
-                return false;
-            }
-            
-            if(visited[s]) {
-                return true;
-            }
+            int temp = queue.poll();
 
-            visited[s] = true;
-            inStack[s] = true;
+            for(int c : adjList.get(temp)) {
+                indegree[c]--;
 
-            for(int c : adjList.get(s)) {
-                if(!helper(c, adjList, visited, inStack)){
-                    return false;
+                if(indegree[c] == 0) {
+                    queue.add(c);
                 }
             }
+         }
 
-            inStack[s] = false;
+         for(int i=0; i<numCourses; i++) {
+            if(indegree[i] != 0) {
+                return false;
+            }
+         }
 
-          return true;
-        }
+        return true;
+    }
 }
