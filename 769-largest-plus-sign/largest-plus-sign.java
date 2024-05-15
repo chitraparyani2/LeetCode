@@ -1,48 +1,47 @@
 class Solution {
-
     public int orderOfLargestPlusSign(int n, int[][] mines) {
         
-        //create binary
         int[][] grid = new int[n][n];
+        int ans = 0;
 
-        for(int[] b : grid) {
-            Arrays.fill(b, 1);
+        for(int[] g : grid) {
+            Arrays.fill(g, 1);
         }
 
         for(int[] mine : mines) {
             int x = mine[0];
             int y = mine[1];
-            grid[x][y]=0;
+
+            grid[x][y] = 0;
         }
 
-        int m1 = grid.length;
-        int n1 = grid[0].length;
-        int max=0;
-
-        for(int i=0; i<m1; i++) {
-            for(int j=0; j<n1; j++) {
-
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
                 if(grid[i][j] == 1) {
-                    int res = 1;
-                    max = Math.max(max, res);
-                    int x=1;
-
-                    while(i-x >= 0 && i+x < m1 && j-x >=0 && j+x < n1 && grid[i][j] != 0) {
-
-                        if(grid[i][j] == grid[i-x][j] && grid[i][j] == grid[i+x][j] &&
-                        grid[i][j] == grid[i][j-x] && grid[i][j] == grid[i][j+x]) {
-
-                            res++;
-                            max = Math.max(max, res);
-
-                            x++;
-                        } else {
-                            break;
-                        }
-                    }
+                    int res = helper(grid, i, j);
+                    ans = Math.max(ans, res);
                 }
             }
         }
-      return max;
+      return ans;  
+    }
+
+    public int helper(int[][] grid, int r, int c) {
+
+        int s = 1;
+        int ans = 1;
+        while(r-s >= 0 && r+s < grid.length &&
+                c-s >= 0 && c+s < grid[0].length) {
+
+                    if(grid[r-s][c] == 1 && grid[r+s][c] == 1 &&
+                        grid[r][c-s] == 1 && grid[r][c+s] == 1) {
+                            ans++;
+                            s++;
+                        } else {
+                            break;
+                        }
+                }
+
+      return ans;          
     }
 }
