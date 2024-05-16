@@ -1,13 +1,3 @@
-
-/**
-    1. s1.length == 0 && s2 == length -> return true
-    2. int m = s1.length-1; n = s2.length-1, p = s3.length-1;
-    3. if(s1.charAt(m) == s3.charAt(p)) ->
-        helper(m-1, n, p-1)
-        if(s2.charAT(n) == s3.charAt(p)) { helper(m, n-1, p-1)}
-    4. return false
-    5. TC - n^n
- */
 class Solution {
     public boolean isInterleave(String s1, String s2, String s3) {
         
@@ -15,37 +5,24 @@ class Solution {
             return false;
         }
 
-        Boolean[][] memo = new Boolean[s1.length()+1][s2.length()+1];
+        boolean[][] dp = new boolean[s1.length()+1][s2.length()+1];
 
-        return helper(s1, s2, s3, 0, 0, 0, memo);
-    }
+        for(int i=0; i<dp.length; i++) {
+            for(int j=0; j<dp[0].length; j++) {
 
-    public boolean helper(String s1, String s2, String s3, int m, int n, int p,
-                            Boolean[][] memo) {
-
-        if(m+n == s3.length()) {
-            return true;
+                if(i==0 && j==0) {
+                    dp[i][j] = true;
+                } else if(i==0) {
+                    dp[i][j] = dp[i][j-1] && s2.charAt(j-1) == s3.charAt(i+j-1);
+                } else if(j==0) {
+                    dp[i][j] = dp[i-1][j] && s1.charAt(i-1) == s3.charAt(i+j-1);
+                } else {
+                    dp[i][j] = dp[i][j-1] && s2.charAt(j-1) == s3.charAt(i+j-1) ||
+                                dp[i-1][j] && s1.charAt(i-1) == s3.charAt(i+j-1);
+                }
+            }
         }
 
-        if(memo[m][n] != null) {
-            return memo[m][n];
-        }
-
-        if(m < s1.length() && s1.charAt(m) == s3.charAt(p)) {
-                boolean flag = helper(s1, s2, s3, m+1, n, p+1, memo);
-                memo[m][n] = flag;
-                if(flag)
-                    return true;
-        }
-
-        if(n < s2.length() && s2.charAt(n) == s3.charAt(p)) {
-                boolean flag = helper(s1, s2, s3, m, n+1, p+1, memo);
-                memo[m][n] = flag;
-                if(flag)
-                    return true;
-        }
-
-        memo[m][n] = false;
-      return false;  
+      return dp[s1.length()][s2.length()];  
     }
 }
