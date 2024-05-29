@@ -4,7 +4,6 @@ class LRUCache {
 
         int key;
         int val;
-
         ListNode next;
         ListNode prev;
 
@@ -17,7 +16,6 @@ class LRUCache {
     public void addNode(ListNode node) {
 
         ListNode temp = head.next;
-
         head.next = node;
         node.next = temp;
         temp.prev = node;
@@ -26,16 +24,13 @@ class LRUCache {
 
     public void deleteNode(ListNode node) {
 
-         node.next.prev = node.prev;
-         node.prev.next = node.next;
+        node.next.prev = node.prev;
+        node.prev.next = node.next;
     }
 
-    ListNode head;
-    ListNode tail;
-
     Map<Integer, ListNode> map;
-
     int capacity;
+    ListNode head, tail;
 
     public LRUCache(int capacity) {
         
@@ -56,10 +51,8 @@ class LRUCache {
             ListNode node = map.get(key);
             deleteNode(node);
             addNode(node);
-
             return node.val;
         }
-
       return -1;  
     }
     
@@ -74,19 +67,17 @@ class LRUCache {
 
             ListNode node = map.get(key);
             deleteNode(node);
-            node.val = value;
             addNode(node);
+            node.val = value;
             map.put(key, node);
         } else {
 
-            ListNode node = tail.prev;
-            deleteNode(node);
-
+            int k = tail.prev.key;
+            deleteNode(map.get(k));
             ListNode newNode = new ListNode(key, value);
             addNode(newNode);
-
+            map.remove(k);
             map.put(key, newNode);
-            map.remove(node.key);
         }
     }
 }
