@@ -1,58 +1,53 @@
 class Solution {
-    int index=0;
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         
         Map<Integer, List<Integer>> map = new HashMap<>();
+        int[] indegree = new int[numCourses];
+        Queue<Integer> queue = new LinkedList();
 
-        boolean[] visited = new boolean[numCourses];
-        boolean[] inStack = new boolean[numCourses];
         int[] res = new int[numCourses];
+        int s=0;
 
         for(int i=0; i<numCourses; i++) {
             map.put(i, new ArrayList<>());
         }
 
-        for(int[] pre : prerequisites) {
+        for(int[] prereq : prerequisites) {
 
-            int subject = pre[0];
-            int depSubj = pre[1];
-            
-            map.get(subject).add(depSubj);
+            int c1 = prereq[0];
+            int c2 = prereq[1];
+
+            map.get(c2).add(c1);
+            indegree[c1]++;
         }
 
         for(int i=0; i<numCourses; i++) {
+            if(indegree[i] == 0) {
+                queue.add(i);
+            }
+        }
 
-            boolean r = helper(i, map, visited, inStack, res);
-            if(!r) {
+        while(!queue.isEmpty()) {
+
+            int course = queue.poll();
+            res[s++] = course;
+
+            for(int d : map.get(course)) {
+
+                indegree[d]--;
+
+                if(indegree[d] == 0) {
+                    queue.add(d);
+                }
+            }
+        }
+
+        for(int i=0; i<numCourses; i++) {
+            if(indegree[i] != 0) {
                 return new int[]{};
             }
         }
-       return res; 
+
+      return res;  
     }
-
-    public boolean helper(int course, Map<Integer, List<Integer>> map,
-            boolean[] visited, boolean[] inStack, int[] res) {
-
-                if(inStack[course]) {
-                    return false;
-                }
-
-                if(visited[course]) {
-                    return true;
-                }
-
-                visited[course] = true;
-                inStack[course] = true;
-
-                for(int c : map.get(course)) {
-                    if(!helper(c, map, visited, inStack, res)) {
-                        return false;
-                    }
-                }
-
-                inStack[course] = false;
-                res[index++] = course;
-
-            return true;
-        }
 }
