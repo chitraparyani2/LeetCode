@@ -1,49 +1,55 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
-         Map<Integer, List<Integer>> adjList = new HashMap<>();
-         int[] indegree = new int[numCourses];
-         Queue<Integer> queue = new LinkedList<>();
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
 
-         for(int i=0; i<numCourses; i++) {
+        boolean[] visited = new boolean[numCourses];
+        boolean[] inStack = new boolean[numCourses];
+
+        for(int i=0; i<numCourses; i++) {
             adjList.put(i, new ArrayList<>());
-         }
+        }
 
-         for(int[] prereq : prerequisites) {
+        for(int[] prereq : prerequisites) {
 
-            int p0 = prereq[0];
-            int p1 = prereq[1];
+            int c1 = prereq[0];
+            int c2 = prereq[1];
 
-            adjList.get(p0).add(p1);
+            adjList.get(c1).add(c2);
+        }
 
-            indegree[p1]++;
-         }
-
-         for(int i=0; i<numCourses; i++) {
-            if(indegree[i] == 0) {
-                queue.add(i);
-            }
-         }
-
-         while(!queue.isEmpty()) {
-
-            int temp = queue.poll();
-
-            for(int c : adjList.get(temp)) {
-                indegree[c]--;
-
-                if(indegree[c] == 0) {
-                    queue.add(c);
-                }
-            }
-         }
-
-         for(int i=0; i<numCourses; i++) {
-            if(indegree[i] != 0) {
+        for(int i=0; i<numCourses; i++) {
+            boolean res = isCycle(i, adjList, visited, inStack);
+            if(!res) {
                 return false;
             }
-         }
-
-        return true;
+        }
+      return true;  
     }
+
+    public boolean isCycle(int c, Map<Integer, List<Integer>> adjList,
+        boolean[] visited, boolean[] inStack) {
+
+            if(inStack[c]) {
+                return false;
+            }
+            
+            if(visited[c]) {
+                return true;
+            }
+
+            visited[c] = true;
+            inStack[c] = true;
+
+            for(int s : adjList.get(c)) {
+                boolean res = isCycle(s, adjList, visited, inStack);
+                if(!res) {
+                    return false;
+                }
+            }
+
+            inStack[c] = false;
+
+          return true;  
+        }
 }
