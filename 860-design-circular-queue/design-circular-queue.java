@@ -1,21 +1,20 @@
 class MyCircularQueue {
 
-    class ListNode {
+    class Node {
 
         int val;
-        ListNode next;
+        Node next;
 
-        public ListNode(int val) {
+        public Node(int val) {
             this.val = val;
         }
     }
 
+    Node head, tail;
     int capacity;
     int count;
-    ListNode head, tail;
 
     public MyCircularQueue(int k) {
-        
         capacity = k;
         count = 0;
     }
@@ -26,18 +25,15 @@ class MyCircularQueue {
             return false;
         }
 
-        ListNode node = new ListNode(value);
-
         if(count == 0) {
-            head = tail = node;
+            head = tail = new Node(value);
         } else {
-            tail.next = node;
-            tail = node;
+            tail.next = new Node(value);
+            tail = tail.next;
         }
 
         count++;
-
-      return true;
+      return true;  
     }
     
     public boolean deQueue() {
@@ -48,7 +44,6 @@ class MyCircularQueue {
 
         head = head.next;
         count--;
-
       return true;  
     }
     
@@ -57,8 +52,7 @@ class MyCircularQueue {
         if(isEmpty()) {
             return -1;
         }
-
-        return head.val;
+      return head.val;  
     }
     
     public int Rear() {
