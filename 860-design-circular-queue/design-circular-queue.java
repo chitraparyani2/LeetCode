@@ -1,22 +1,18 @@
 class MyCircularQueue {
 
-    class Node {
-
-        int val;
-        Node next;
-
-        public Node(int val) {
-            this.val = val;
-        }
-    }
-
-    Node head, tail;
-    int capacity;
+    int[] arr;
+    int front;
+    int rear;
     int count;
+    int capacity;
 
     public MyCircularQueue(int k) {
+        
         capacity = k;
-        count = 0;
+        arr = new int[k];
+        front=0;
+        rear=0;
+        count=0;
     }
     
     public boolean enQueue(int value) {
@@ -25,14 +21,10 @@ class MyCircularQueue {
             return false;
         }
 
-        if(count == 0) {
-            head = tail = new Node(value);
-        } else {
-            tail.next = new Node(value);
-            tail = tail.next;
-        }
-
+        arr[rear%capacity] = value;
+        rear++;
         count++;
+
       return true;  
     }
     
@@ -42,7 +34,7 @@ class MyCircularQueue {
             return false;
         }
 
-        head = head.next;
+        front++;
         count--;
       return true;  
     }
@@ -52,7 +44,7 @@ class MyCircularQueue {
         if(isEmpty()) {
             return -1;
         }
-      return head.val;  
+        return arr[front%capacity];
     }
     
     public int Rear() {
@@ -60,7 +52,8 @@ class MyCircularQueue {
         if(isEmpty()) {
             return -1;
         }
-      return tail.val;  
+        
+        return arr[(rear-1)%capacity];
     }
     
     public boolean isEmpty() {
