@@ -1,28 +1,18 @@
 class Solution {
     public int pivotIndex(int[] nums) {
         
-        int n = nums.length;
+        int ls=0, rs=0, res=0;
 
-        int[] lt = new int[n];
-        int[] rt = new int[n];
-
-        lt[0] = nums[0];
-        rt[n-1] = nums[n-1];
-
-        for(int i=1; i<n; i++) {
-            lt[i] = nums[i] + lt[i-1];
+        for(int num : nums) {
+            rs += num;
         }
 
-        for(int i=n-2; i>=0; i--) {
-            rt[i] = nums[i] + rt[i+1];
-        }
+        for(int i=0; i<nums.length; i++) {
 
-        for(int i=0; i<n; i++) {
-            if(lt[i] == rt[i]) {
-                return i;
-            }
+            rs-= nums[i];
+            if(rs == ls) return i;
+            ls += nums[i];
         }
-
-      return -1;  
+       return -1; 
     }
 }
