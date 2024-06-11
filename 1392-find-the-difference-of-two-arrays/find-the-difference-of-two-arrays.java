@@ -21,14 +21,14 @@ class Solution {
            set2.add(num);
         }
 
-        for(int num : nums1) {
-            if(!set2.contains(num) && !list1.contains(num)) {
+        for(int num : set1) {
+            if(!set2.contains(num)) {
                 list1.add(num);
             }
         }
 
-        for(int num : nums2) {
-            if(!set1.contains(num) && !list2.contains(num)) {
+        for(int num : set2) {
+            if(!set1.contains(num)) {
                 list2.add(num);
             }
         }
