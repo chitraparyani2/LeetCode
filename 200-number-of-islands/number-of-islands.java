@@ -17,7 +17,7 @@ class Solution {
 
                     while(!queue.isEmpty()) {
 
-                        int size = queue.size();
+                       // int size = queue.size();
 
                       //  for(int k=0; k<size; k++) {
 
