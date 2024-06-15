@@ -13,15 +13,15 @@ class Solution {
         
         ListNode fast = head;
         ListNode slow = head;
-      //  ListNode prev = slow;
+        ListNode prev = slow;
 
         while(fast != null && fast.next != null) {
-         //   prev = slow;
+            prev = slow;
             slow = slow.next;
             fast = fast.next.next;
         }
 
-       // prev.next = null;
+        prev.next = null;
         ListNode reversed = reverseList(slow);
 
         int max = compare(head, reversed);
