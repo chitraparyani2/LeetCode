@@ -1,55 +1,52 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
-        Map<Integer, List<Integer>> adjList = new HashMap<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
 
         boolean[] visited = new boolean[numCourses];
         boolean[] inStack = new boolean[numCourses];
 
         for(int i=0; i<numCourses; i++) {
-            adjList.put(i, new ArrayList<>());
+            map.put(i, new ArrayList<>());
         }
 
         for(int[] prereq : prerequisites) {
 
-            int c1 = prereq[0];
-            int c2 = prereq[1];
+            int p = prereq[0];
+            int q = prereq[1];
 
-            adjList.get(c1).add(c2);
+            map.get(q).add(p);
         }
 
         for(int i=0; i<numCourses; i++) {
-            boolean res = isCycle(i, adjList, visited, inStack);
-            if(!res) {
+            if(!helper(i, map, visited, inStack)) {
                 return false;
             }
         }
       return true;  
     }
 
-    public boolean isCycle(int c, Map<Integer, List<Integer>> adjList,
+    public boolean helper(int st, Map<Integer, List<Integer>> map,
         boolean[] visited, boolean[] inStack) {
 
-            if(inStack[c]) {
+            if(inStack[st]) {
                 return false;
             }
-            
-            if(visited[c]) {
+
+            if(visited[st]) {
                 return true;
             }
 
-            visited[c] = true;
-            inStack[c] = true;
+            visited[st] = true;
+            inStack[st] = true;
 
-            for(int s : adjList.get(c)) {
-                boolean res = isCycle(s, adjList, visited, inStack);
-                if(!res) {
+            for(int s : map.get(st)) {
+                if(!helper(s, map, visited, inStack)) {
                     return false;
                 }
             }
-
-            inStack[c] = false;
-
-          return true;  
-        }
+            
+            inStack[st] = false;
+        return true;  
+    }
 }
