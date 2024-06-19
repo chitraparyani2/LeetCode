@@ -1,65 +1,69 @@
 class Solution {
-
-    int m=0,n=0;
     public int orangesRotting(int[][] grid) {
         
-        Queue<int[]> queue = new LinkedList();
+        int freshOranges = 0, time = 0;
+        boolean flag = false;
 
-        m = grid.length;
-        n = grid[0].length;
-        int res =0, count_fresh=0;
-        boolean flag=false;
+        int m = grid.length;
+        int n = grid[0].length;
+
+        Queue<int[]> queue = new LinkedList();
+        
+        int[][] dir = {{-1,0}, {1,0}, {0,-1}, {0,1}};
 
         for(int i=0; i<m; i++) {
             for(int j=0; j<n; j++) {
 
-                if(grid[i][j] == 2) {
-                    queue.add(new int[]{i,j});
-                } else if(grid[i][j] == 1) {
-                    count_fresh++;
+                if(grid[i][j] == 1) {
+                    freshOranges++;
+                } else if(grid[i][j] == 2) {
+                    
+                    queue.offer(new int[]{i,j});
                 }
             }
         }
 
-        if(count_fresh == 0) return 0;
+        //System.out.println("freshOranges" + freshOranges);
 
-        int[][] dir = {{-1,0},{0,1},{0,-1},{1,0}};
+        if(freshOranges == 0) {
+            return time;
+        }
 
         while(!queue.isEmpty()) {
-            
+
             int size = queue.size();
-            
-            if(!flag) {
-                flag=true;
-            } else {
-                res++;
-                
-            }
 
             for(int i=0; i<size; i++) {
 
-                int[] temp = queue.poll();
+                int[] curr = queue.poll();
+
+                int x = curr[0];
+                int y = curr[1];
+
+                grid[x][y] = 0;
 
                 for(int[] d : dir) {
-                    int x=temp[0]+d[0];
-                    int y=temp[1]+d[1];
 
-                    if(x < 0 || y < 0 || x >= m || y >= n) {
+                    int x1 = curr[0] + d[0];
+                    int y1 = curr[1] + d[1];
+
+                    if(x1 < 0 || x1 >= m || y1 < 0 || y1 >= n || grid[x1][y1] == 0) {
                         continue;
                     }
 
-                    if(grid[x][y] == 1) {
-                        grid[x][y]=2;
-                        System.out.println(x + "and" + y);
-                        queue.add(new int[]{x,y});
-                        count_fresh--;
+                    if(grid[x1][y1] == 1) {
+                        grid[x1][y1] = 0;
+                        queue.add(new int[]{x1, y1});
+                        freshOranges--;
                     }
                 }
             }
+                if(!flag) {flag = true;} else {time++;}
+                
         }
 
-     
+       // System.out.println("freshOranges" + freshOranges);
 
-      return count_fresh == 0 ? res : -1;  
+      return freshOranges != 0 ? -1 : time;
     }
 }
