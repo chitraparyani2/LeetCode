@@ -1,74 +1,35 @@
 class Solution {
     public boolean isValidSudoku(char[][] board) {
+        
+        int m = board.length;
+        int n = board[0].length;
 
-        Set<Character> set = new HashSet<>();
+        for(int i=0; i<m; i++) {
+            
+            Set<Character> rowSet = new HashSet();
+            Set<Character> colSet = new HashSet();
+            Set<Character> gridSet = new HashSet();
 
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] != '.') {
-                    if (!set.contains(board[i][j])) {
-                        set.add(board[i][j]);
-                    } else {
-                        return false;
-                    }
-                }
-            }
-            set.clear();
-        }
+            for(int j=0; j<n; j++) {
 
-        // col check
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[j][i] != '.') {
-                    if (!set.contains(board[j][i])) {
-                        set.add(board[j][i]);
-                    } else {
-                        return false;
-                    }
-                }
-            }
-            set.clear();
-        }
-
-        // check box
-
-        int i = 0, j = 0;
-        int s1 = 3, s2 = 3, j1 = 0, i1 = 0;
-
-        while (i < 9) {
-
-            while (j < 9) {
-
-                for (i = i1; i < s1; i++) {
-                    for (j = j1; j < s2; j++) {
-
-                        if (board[i][j] != '.') {
-                            if (!set.contains(board[i][j])) {
-                                set.add(board[i][j]);
-                            } else {
-                                return false;
-                            }
-                        }
-
-                    }
+                if(board[i][j] != '.' && !rowSet.add(board[i][j])) {
+                   return false;
                 }
 
-                set.clear();
-                j1 += 3;
-                s2 += 3;
+                if(board[j][i] != '.' && !colSet.add(board[j][i])) {
+                    return false;
+                }
+
+                int rs =  3*(i/3) + (j/3);
+                int cs =  3*(i%3) + (j%3);
+
+                if(board[rs][cs] != '.' && !gridSet.add(board[rs][cs])) {
+                    return false;
+                }
+
+
             }
-
-           // set.clear();
-            i1 += 3;
-            s1 += 3;
-            j1 = 0;
-            j=0;
-            s2 = 3;
-
         }
-
-        return true;
+       return true; 
     }
-
 }
