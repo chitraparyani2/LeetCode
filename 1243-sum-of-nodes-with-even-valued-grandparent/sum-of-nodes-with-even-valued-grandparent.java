@@ -16,9 +16,13 @@
 class Solution {
     public int sumEvenGrandparent(TreeNode root) {
         
+        if(root == null) {
+            return 0;
+        }
+
         Queue<TreeNode> queue = new LinkedList();
+        queue.offer(root);
         int sum = 0;
-        queue.add(root);
 
         while(!queue.isEmpty()) {
 
@@ -26,46 +30,39 @@ class Solution {
 
             for(int i=0; i<size; i++) {
 
-                TreeNode temp = queue.poll();
+                TreeNode node = queue.poll();
 
-                if(temp.val % 2 == 0) {
+                if(node.val%2 == 0) {
 
-                    if(temp.left != null) {
-
-                        if(temp.left.left != null) {
-                            sum += temp.left.left.val;
+                    if(node.left != null) {
+                        if(node.left.left != null) {
+                            sum += node.left.left.val;
                         }
-
-                        if(temp.left.right != null) {
-                            sum += temp.left.right.val;
+                        if(node.left.right != null) {
+                            sum += node.left.right.val;
                         }
-                       
                     }
 
-                    if(temp.right != null) {
-
-                        if(temp.right.left != null) {
-                            sum += temp.right.left.val;
+                    if(node.right != null) {
+                        if(node.right.left != null) {
+                            sum += node.right.left.val;
                         }
-
-                        if(temp.right.right != null) {
-                            sum += temp.right.right.val;
+                        if(node.right.right != null) {
+                            sum += node.right.right.val;
                         }
-                        
                     }
-                   
                 }
-                
-                    if(temp.left != null){
-                        queue.add(temp.left);
-                    }
 
-                    if(temp.right != null) {
-                        queue.add(temp.right);
-                    }
+                if(node.left != null) {
+                    queue.add(node.left);
+                }
 
+                if(node.right != null) {
+                    queue.add(node.right);
+                }
             }
         }
+        
       return sum;  
     }
 }
