@@ -1,7 +1,7 @@
 class Solution {
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
         
-        List<List<Integer>> result = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList();
 
         int m = heights.length;
         int n = heights[0].length;
@@ -12,37 +12,41 @@ class Solution {
         for(int i=0; i<m; i++) {
             for(int j=0; j<n; j++) {
 
-                if(i==0 || j==0) 
-                    helper(heights, i, j, pacific, 0);
-                if(i==m-1 || j==n-1) 
-                    helper(heights, i, j, atlantic, 0);
-                } 
+                if(i == 0 || j == 0) {
+                    helper(i, j, heights, pacific,-1);
+                }
+
+                if(i == m-1 || j == n-1) {
+                    helper(i, j, heights, atlantic,-1);
+                }
             }
+        }
 
         for(int i=0; i<m; i++) {
             for(int j=0; j<n; j++) {
                 if(pacific[i][j] && atlantic[i][j]) {
-                    List<Integer> temp = new ArrayList<>();
-                    temp.add(i);
-                    temp.add(j);
-                    result.add(temp);
+                    List<Integer> list = new ArrayList();
+                    list.add(i);
+                    list.add(j);
+                    res.add(list);
+                }
             }
         }
-    }
-     return result;  
+      return res;  
     }
 
-    public void helper(int[][] grid, int r, int c, boolean[][] arr, int neig) {
-        
-       if(r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || 
-       arr[r][c] || grid[r][c] < neig) {
-            return;
-       }
-        arr[r][c] = true;
-        
-        helper(grid, r-1, c, arr, grid[r][c]);
-        helper(grid, r+1, c, arr, grid[r][c]);
-        helper(grid, r, c+1, arr, grid[r][c]);
-        helper(grid, r, c-1, arr, grid[r][c]);
+    public void helper(int r, int c, int[][] h, boolean[][] o, int prev) {
+
+        if(r < 0 || c < 0 || r >= h.length || c >= h[0].length ||
+            prev > h[r][c] || o[r][c]) {
+                return;
+            }
+
+            o[r][c] = true;
+
+            helper(r-1, c, h, o, h[r][c]);
+            helper(r+1, c, h, o, h[r][c]);
+            helper(r, c-1, h, o, h[r][c]);
+            helper(r, c+1, h, o, h[r][c]);
     }
 }
