@@ -8,20 +8,19 @@ class Solution {
 
         while(i < j) {
 
-            if(i < k && count < k && !flag) {
+            while(i < k) {
                 sum += cardPoints[i];
-                count++;
                 i++;
-                if(count == k)
-                    flag=true;
-            } else if(count > 0) {
-                count--;
+            }
+             
+            while(k > 0) {
+                max = Math.max(max, sum);
                 sum -= cardPoints[--i];
                 sum += cardPoints[--j];
-            } else {
-                break;
-            }
-            max = Math.max(max, sum);
+                k--;
+            } 
+
+            if(k == 0) {break;}
         }
 
       return Math.max(max, sum);  
