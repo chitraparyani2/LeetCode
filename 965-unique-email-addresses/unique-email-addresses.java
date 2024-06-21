@@ -3,33 +3,31 @@ class Solution {
         
         Set<String> set = new HashSet<>();
 
-        for(int i=0; i<emails.length; i++) {
+        for(String email : emails) {
 
-            String str = emails[i];
+            String[] parts = email.split("\\@");
+
+            String part1 = parts[0];
+
             StringBuilder sb = new StringBuilder();
-            boolean flag = false;
 
-            for(int j=0; j<str.length(); j++) {
+            for(int i=0; i<part1.length(); i++) {
 
-                char ch = str.charAt(j);
+                char ch = part1.charAt(i);
 
-                if(ch == '.' && !flag) {
+                if(ch == '.') {
                     continue;
-                } else if(ch == '+' && !flag) {
-                    int ind = str.indexOf('@');
-                    j=ind-1;
-                    flag = true;
-                } else if(ch == '@') {
-                    sb.append(ch);
-                    flag = true;
-                } else {
-                    sb.append(ch);
+                } else if(ch == '+') {
+                    break;
                 }
+
+                sb.append(ch);
             }
-           // System.out.println(sb.toString() + " ");
-            set.add(sb.toString());
-            
+
+            set.add(sb.toString()+ "@" + parts[1]);
+          //  System.out.println(sb.toString()+ "@" + parts[1]);
         }
+
       return set.size();  
     }
 }
