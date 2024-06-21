@@ -1,52 +1,36 @@
 class Solution {
     public List<String> subdomainVisits(String[] cpdomains) {
-        
-        List<String> result = new ArrayList<>();
 
-        Map<String, Integer> map = new HashMap<>();
+        List<String> res = new ArrayList<>();
+        Map<String, Integer> countMap = new HashMap<>();
 
         for(String str : cpdomains) {
 
-            String[] strArray = str.split(" ");
+            String[] parts = str.split("\\ ");
+            int part0 = Integer.parseInt(parts[0]);
+            String[] subd = parts[1].split("\\.");
 
-            int count = Integer.valueOf(strArray[0]);
-            
-            String s = strArray[1];
-
-            String[] temp = s.split("\\.");
+            int n = subd.length;
             StringBuilder sb = new StringBuilder();
 
-            for(int i=temp.length-1; i>=0; i--) {
+            for(int i=n-1; i>=0; i--) {
 
-                if(i != temp.length-1) {
+                if(i != n-1) {
                     sb.reverse();
                     sb.append(".");
-                    sb.append(new StringBuilder(temp[i]).reverse());
+                    sb.append(new StringBuilder(subd[i]).reverse());
                     sb.reverse();
                 } else {
-                    sb.append(temp[i]);
+                    sb.append(subd[i]);
                 }
-
-               // System.out.println("ans " + ans + " " + count);
-                map.put(sb.toString(), map.getOrDefault(sb.toString(), 0) + count);
-
-            //   if(!map.containsKey(ans)) {
-            //     map.put(ans, count);
-            //   } else {
-            //     map.put(ans, map.get(ans) + count);
-            //   }
-
-
+                countMap.put(sb.toString(), countMap.getOrDefault(sb.toString(), 0) + part0);
             }
-
-            
         }
 
-        for(Map.Entry<String, Integer> entry : map.entrySet()) {
-            String str = entry.getValue() + " " + entry.getKey();
-            result.add(str);
+        for(String key : countMap.keySet()) {
+            res.add(new String(countMap.get(key) + " " + key));
         }
 
-        return result;
+      return res;  
     }
 }
