@@ -21,6 +21,7 @@ class Solution {
         if(root == null) {
             return res;
         }
+
         Queue<TreeNode> queue = new LinkedList();
         queue.add(root);
 
@@ -45,7 +46,6 @@ class Solution {
                 }
             }
         }
-
       return res;  
     }
 }
