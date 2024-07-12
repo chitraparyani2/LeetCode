@@ -20,26 +20,32 @@ class LRUCache {
         node.next = temp;
         temp.prev = node;
         node.prev = head;
+
     }
 
     public void deleteNode(ListNode node) {
 
-        node.next.prev = node.prev;
         node.prev.next = node.next;
+        node.next.prev = node.prev;
     }
 
-    Map<Integer, ListNode> map;
+    public void updateNode(ListNode node) {
+
+        deleteNode(node);
+        addNode(node);
+    }
+
+    ListNode head;
+    ListNode tail;
     int capacity;
-    ListNode head, tail;
+    Map<Integer, ListNode> map;
 
     public LRUCache(int capacity) {
         
         this.capacity = capacity;
         map = new HashMap<>(capacity);
-
         head = new ListNode(-1,-1);
-        tail = new ListNode(-1,-1);
-
+        tail = new ListNode(-1, -1);
         head.next = tail;
         tail.prev = head;
     }
@@ -47,10 +53,8 @@ class LRUCache {
     public int get(int key) {
         
         if(map.containsKey(key)) {
-
             ListNode node = map.get(key);
-            deleteNode(node);
-            addNode(node);
+            updateNode(node);
             return node.val;
         }
       return -1;  
@@ -58,26 +62,28 @@ class LRUCache {
     
     public void put(int key, int value) {
         
+           ListNode node = new ListNode(key, value);
         if(map.size() < capacity && !map.containsKey(key)) {
 
-            ListNode node = new ListNode(key, value);
             addNode(node);
             map.put(key, node);
+
         } else if(map.size() <= capacity && map.containsKey(key)) {
 
-            ListNode node = map.get(key);
-            deleteNode(node);
+            ListNode oldNode = map.get(key);
+            deleteNode(oldNode);
             addNode(node);
-            node.val = value;
             map.put(key, node);
+
         } else {
 
-            int k = tail.prev.key;
-            deleteNode(map.get(k));
-            ListNode newNode = new ListNode(key, value);
-            addNode(newNode);
-            map.remove(k);
-            map.put(key, newNode);
+            int oldKey = tail.prev.key;
+            ListNode oldNode = map.get(oldKey);
+            deleteNode(oldNode);
+            addNode(node);
+            map.remove(oldNode.key);
+            map.put(key, node);
+
         }
     }
 }
